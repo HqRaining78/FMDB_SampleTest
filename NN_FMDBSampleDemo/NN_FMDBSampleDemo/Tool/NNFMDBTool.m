@@ -43,6 +43,7 @@
         [filemanage createDirectoryAtPath:docsPath withIntermediateDirectories:YES attributes:nil error:nil];
     }
     NSString *dbpath = [docsPath stringByAppendingPathComponent:dbname];
+    NSLog(@"---------%@", dbpath);
     return dbpath;
 }
 

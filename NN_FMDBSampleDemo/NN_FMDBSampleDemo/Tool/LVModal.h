@@ -12,11 +12,10 @@
 
 @property (nonatomic, copy) NSString *name;
 
-@property (nonatomic, assign) NSInteger age;
 
 @property (nonatomic, assign) NSInteger ID_No;
 
 
-+ (instancetype)modalWith:(NSString *)name age:(NSInteger)age no:(NSInteger)ID_No;
++ (instancetype)modalWith:(NSString *)name no:(NSInteger)ID_No;
 
 @end

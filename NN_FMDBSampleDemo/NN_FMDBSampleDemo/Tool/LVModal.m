@@ -10,10 +10,9 @@
 
 @implementation LVModal
 
-+ (instancetype)modalWith:(NSString *)name age:(NSInteger)age no:(NSInteger)ID_No {
++ (instancetype)modalWith:(NSString *)name no:(NSInteger)ID_No {
     LVModal *modal = [[LVModal alloc] init];
     modal.name = name;
-    modal.age = age;
     modal.ID_No = ID_No;
     return modal;
 }

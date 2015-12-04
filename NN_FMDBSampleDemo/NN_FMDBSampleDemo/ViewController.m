@@ -17,7 +17,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *card_idTextField;
 @property (weak, nonatomic) IBOutlet UITextField *nickNameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *ageTextField;
 
 @end
 
@@ -38,7 +37,7 @@
     _tableView.tableFooterView = [UIView new];
     
     [[NNFMDBTool sharedInstance] execSqlInFmdb:@"tmp" dbFileName:@"test.sqlite" dbHandler:^(FMDatabase *nn_db) {
-        NSString *cSql = @"CREATE TABLE IF NOT EXISTS TEST (id INTEGER PRIMARY KEY, name TEXT NOT NULL, age TEXT NOT NULL, ID_No TEXT NOT NULL)";
+        NSString *cSql = @"CREATE TABLE IF NOT EXISTS TEST (id INTEGER PRIMARY KEY, name TEXT NOT NULL, ID_No TEXT NOT NULL)";
         BOOL res = [nn_db executeUpdate:cSql];
         if (!res) {
             NSLog(@"error when creating db table");
@@ -50,10 +49,10 @@
 
 - (IBAction)insertData:(id)sender {
     [[NNFMDBTool sharedInstance] execSqlInFmdb:@"tmp" dbFileName:@"test.sqlite" dbHandler:^(FMDatabase *nn_db) {
-        LVModal *modal = [LVModal modalWith:_nickNameTextField.text age:_ageTextField.text.intValue no:_card_idTextField.text.intValue];
+        LVModal *modal = [LVModal modalWith:_nickNameTextField.text  no:_card_idTextField.text.intValue];
 
-        NSString * sql = @"insert into TEST (name, age, ID_No) values(?, ?, ?)";
-        BOOL res = [nn_db executeUpdate:sql, _nickNameTextField.text, _ageTextField.text, _card_idTextField.text];
+        NSString * sql = @"insert into TEST (name, ID_No) values(?, ?)";
+        BOOL res = [nn_db executeUpdate:sql, _nickNameTextField.text, _card_idTextField.text];
         if (!res) {
             NSLog(@"error to insert data");
         } else {
@@ -67,8 +66,8 @@
 - (IBAction)updateData:(id)sender {
     if (_nickNameTextField.text) {
         [[NNFMDBTool sharedInstance] execSqlInFmdb:@"tmp" dbFileName:@"test.sqlite" dbHandler:^(FMDatabase *nn_db) {
-             NSString *uSql = @"UPDATE TEST SET name = ? WHERE ID_No = ?";
-            BOOL res = [nn_db executeUpdate:uSql,_nickNameTextField.text, _card_idTextField.text];
+             NSString *uSql = @"UPDATE TEST SET ID_No = ? WHERE  name = ?";
+            BOOL res = [nn_db executeUpdate:uSql, _card_idTextField.text, _nickNameTextField.text];
             if (!res) {
                 NSLog(@"error to UPDATE data");
             } else {
@@ -109,10 +108,9 @@
         while ([set next]) {
             
             NSString *name = [set stringForColumn:@"name"];
-            NSString *age = [set stringForColumn:@"age"];
             NSString *ID_No = [set stringForColumn:@"ID_No"];
             
-            LVModal *modal = [LVModal modalWith:name age:age.intValue no:ID_No.intValue];
+            LVModal *modal = [LVModal modalWith:name no:ID_No.intValue];
             [arrM addObject:modal];
         }
         [self.modalsArrM addObjectsFromArray:arrM];
